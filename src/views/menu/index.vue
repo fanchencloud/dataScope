@@ -1,12 +1,3 @@
-<!--
- * @FileDescription: 菜单管理
- * @Author: chen
- * @Date: 2022/10/30 16:41
- * @LastEditors: chen
--->
-<script setup>
-import {Edit, Search, Plus, QuestionFilled,} from '@element-plus/icons-vue'
-</script>
 <template>
   <div class="menuManager">
     <div class="searchBox">
@@ -27,8 +18,16 @@ import {Edit, Search, Plus, QuestionFilled,} from '@element-plus/icons-vue'
       </el-form>
     </div>
 
-    <div class="searchBox">
-      <el-button type="primary" plain :icon="Plus" @click="addMenuDialog = true">新增</el-button>
+    <div style="display:flex;">
+      <div class="searchBox">
+        <el-button type="primary" plain :icon="Plus" @click="addMenuDialog = true">新增</el-button>
+      </div>
+      <div class="showBox">
+        <el-button type="info" plain>
+          <img src="https://tuchuangs.com/imgs/2022/11/06/746a6eee9dfe91cd.png" alt="" width="20" height="20">
+          展开/折叠
+        </el-button>
+      </div>
     </div>
 
     <!-- 添加菜单start -->
@@ -244,10 +243,84 @@ import {Edit, Search, Plus, QuestionFilled,} from '@element-plus/icons-vue'
     </el-dialog>
     <!-- 添加菜单end -->
   </div>
+  <div class="menuTable">
+    <el-table
+      :data="tableData"
+      style="width: 100%;margin-bottom: 20px;"
+      row-key="id"
+      default-expand-all="false"
+      :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+      <el-table-column
+        prop="name"
+        label="菜单名称"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="icon"
+        label="图标"
+        width="100"
+        align="center">
+        <template v-slot="scope">
+            <img :src="scope.row.icon" alt="" width="20" height="20">
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="id"
+        label="排序"
+        width="60"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        prop="power"
+        label="权限标识"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        prop="url"
+        label="组件路径"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        prop="status"
+        label="状态"
+        width="80"
+        align="center">
+        <template v-slot="scope">
+          <text class="statusBtn" v-text="scope.row.status"></text>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="date"
+        label="创建时间"
+        width="180"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        fixed="right"
+        label="操作"
+        width="200"
+        align="center">
+        <template v-slot="scope">
+          <el-button @click="handleClick(scope.row)" type="text" size="mini" class="opBtn">
+            <img src="https://tuchuangs.com/imgs/2022/11/06/0dfd8c3d7e177c1f.png" alt="" width="18" height="18">
+            修改
+          </el-button>
+          <el-button type="text" size="mini" class="opBtn">
+            <img src="https://tuchuangs.com/imgs/2022/11/06/e686327c49c98c04.png" alt="" width="18" height="18">
+            新增
+          </el-button>
+          <el-button type="text" size="mini" class="opBtn">
+            <img src="https://tuchuangs.com/imgs/2022/11/06/726dd254b7c8f25b.png" alt="" width="18" height="18">
+            删除
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
 </template>
 
 <script>
-export default {
+  export default {
   name: "index",
   data() {
     return {
@@ -344,6 +417,82 @@ export default {
       // 路由参数
       query: '',
       isCache: '',
+      tableData: [
+        {
+          id: 1,
+          icon: 'https://tuchuangs.com/imgs/2022/11/06/76cf55c447642b51.png',
+          date: '2016-05-02',
+          name: '王1虎',
+          status: '正常',
+          power: '--',
+          url:'--'
+        }, 
+        {
+          id: 2,
+          icon: 'https://tuchuangs.com/imgs/2022/11/06/b3a19679607c85b2.png',
+          date: '2016-05-04',
+          name: '王2虎',
+          status: '正常',
+          power: '--',
+          url:'--'
+        }, 
+        {
+          id: 3,
+          icon: 'https://tuchuangs.com/imgs/2022/11/06/bdaf53f658524d8e.png',
+          date: '2016-05-01',
+          name: '王3虎',
+          status: '正常',
+          power: '--',
+          url:'--',
+          children: [
+            {
+              id: 31,
+              icon: 'https://tuchuangs.com/imgs/2022/11/06/76cf55c447642b51.png',
+              date: '2016-05-01',
+              name: '王31虎',
+              status: '正常',
+              power: '--',
+              url:'--',
+              children: [{
+                id: 33,
+                icon: 'https://tuchuangs.com/imgs/2022/11/06/76cf55c447642b51.png',
+                date: '2016-05-01',
+                name: '王311虎',
+                status: '正常',
+                power: '--',
+                url:'--',
+              }, {
+                id: 34,
+                icon: 'https://tuchuangs.com/imgs/2022/11/06/76cf55c447642b51.png',
+                date: '2016-05-01',
+                name: '王312虎',
+                status: '正常',
+                power: '--',
+                url:'--',
+              }]
+            }, 
+            {
+              id: 32,
+              icon: 'https://tuchuangs.com/imgs/2022/11/06/76cf55c447642b51.png',
+              date: '2016-05-01',
+              name: '王32虎',
+              status: '正常',
+              power: '--',
+              url:'--',
+            }
+          ]
+        }, 
+        {
+          id: 4,
+          icon: 'https://tuchuangs.com/imgs/2022/11/06/b540fc281f427d5a.png',
+          date: '2016-05-03',
+          name: '王4虎',
+          status: '正常',
+          power: '--',
+          url:'--',
+        }
+      ],
+      isshow: false,
     }
   }
   ,
@@ -351,8 +500,7 @@ export default {
     resetForm(formEl) {
       this.formInline.user = ''
       this.formInline.region = ''
-    }
-    ,
+    },
     onSubmit() {
       console.debug("onSubmit")
     },
@@ -390,6 +538,14 @@ export default {
     },
     closeDialog() {
       this.addMenuDialog = false
+    },
+    handleClick(row) {
+      this.addMenuDialog = true
+      console.log(row);
+    },
+    //展开
+    showList() {
+      this.isshow = true
     }
   }
   ,
@@ -398,7 +554,7 @@ export default {
 
 <style lang="less" scoped>
 .menuManager {
-  .searchBox {
+  .searchBox,.showBox {
     margin: 14px 0 0 14px;
   }
 
@@ -468,6 +624,32 @@ export default {
       justify-content: center;
       align-items: center;
     }
+  }
+}
+
+.menuTable {
+  margin: 14px;
+  .statusBtn {
+    background-color: #e8f4ff;
+    border-color: #d1e9ff;
+    color:#1890ff;
+    display: inline-block;
+    height: 32px;
+    padding: 0 10px;
+    line-height: 30px;
+    font-size: 12px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    white-space: nowrap;
+  }
+  .unuse {
+    color: red !important;
+  }
+  .opBtn {
+    color: #1890ff;
   }
 }
 </style>
